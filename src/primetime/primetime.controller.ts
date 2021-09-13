@@ -40,12 +40,12 @@ export class PrimeTimeController {
         return this.primeTimeService.deletePrimeTimeBy(id)
     }
 
-    @Put('/id')
+    @Put('/:id')
     updatePrimeTime(@Param('id') id: string, @Body() updatePrimeTimeDto: UpdatePrimeTimeDto): Promise<any> {
         return this.primeTimeService.updatePrimeTime(updatePrimeTimeDto)
     }
 
-    @Get('/tempData')
+    @Get('test/tempData')
     getTempData() {
         return { data: MOCKED_RESPONSE }
     }

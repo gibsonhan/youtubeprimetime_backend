@@ -18,5 +18,7 @@ export class PrimeTime {
     @Column()
     rank: number;
 
-
+    //Not sure if this is correct
+    @Column('simple-array', { nullable: true })
+    subscriptions: string[];
 }

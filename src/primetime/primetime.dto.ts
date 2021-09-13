@@ -4,7 +4,7 @@ export class CreatePrimeTimeDto {
     title: string;
     rank: number;
     //shared: [];
-    //subscriptions: [];
+    subscriptions: [];
     userId: string;
 }
 
@@ -14,7 +14,7 @@ export class UpdatePrimeTimeDto {
     title: string;
     rank: number;
     //shared: [];
-    //subscriptions: [];
+    subscriptions: [];
 }
 
 export class GetPrimeTimesFilterDto {

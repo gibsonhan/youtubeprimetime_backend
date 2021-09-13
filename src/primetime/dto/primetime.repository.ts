@@ -5,7 +5,7 @@ import { PrimeTime } from "./primetime.entity";
 @EntityRepository(PrimeTime)
 export class PrimeTimeRepository extends Repository<PrimeTime | any>{
     async getPrimetimes(filterDto: GetPrimeTimesFilterDto): Promise<any> {
-        const query = this.createQueryBuilder('prime_time');
+        const query = this.createQueryBuilder('primetime');
 
         const primeTimes = await query.getMany()
         return primeTimes
@@ -17,7 +17,7 @@ export class PrimeTimeRepository extends Repository<PrimeTime | any>{
             title,
             description,
             rank,
-            //subscriptions,
+            subscriptions,
             //shared
         } = createPrimeTimeDto
 
@@ -26,7 +26,7 @@ export class PrimeTimeRepository extends Repository<PrimeTime | any>{
             title,
             description,
             rank,
-            //subscriptions,
+            subscriptions,
             //shared
         });
 
@@ -40,20 +40,26 @@ export class PrimeTimeRepository extends Repository<PrimeTime | any>{
             title,
             description,
             rank,
-            //subscriptions,
+            subscriptions,
             //shared
         } = updatePrimeTimeDto
+
+        console.log('update', updatePrimeTimeDto.id)
 
         const primeTime = this.create({
             id,
             title,
             description,
             rank,
-            //subscriptions,
+            subscriptions,
             //shared
         });
-
-        await this.save(primeTime)
+        try {
+            await this.save(primeTime)
+        }
+        catch (error) {
+            console.error('Failed to Update PrimeTime', error)
+        }
         return primeTime
     }
 }

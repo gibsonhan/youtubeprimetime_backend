@@ -9,7 +9,6 @@ export class PrimeTimeService {
     constructor(
         @InjectRepository(PrimeTimeRepository)
         private primetimeRepository: PrimeTimeRepository,
-
     ) { }
 
     getPrimeTimes(@Query() filterDto: GetPrimeTimesFilterDto): Promise<any> {
