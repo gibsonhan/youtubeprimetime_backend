@@ -47,6 +47,6 @@ export class PrimeTimeController {
 
     @Get('test/tempData')
     getTempData() {
-        return { data: MOCKED_RESPONSE }
+        return MOCKED_RESPONSE
     }
 }

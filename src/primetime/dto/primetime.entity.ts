@@ -6,8 +6,8 @@ export class PrimeTime {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column()
-    userId: string;
+    //@Column()
+    //userId: string;
 
     @Column()
     title: string;
@@ -15,10 +15,16 @@ export class PrimeTime {
     @Column()
     description: string;
 
+    //@Column()
+    //tags: string;
+
     @Column()
     rank: number;
 
     //Not sure if this is correct
-    @Column('simple-array', { nullable: true })
-    subscriptions: string[];
+    @Column({
+        type: 'jsonb',
+        array: false,
+    })
+    subscriptions: object[];
 }

@@ -13,7 +13,7 @@ export class PrimeTimeRepository extends Repository<PrimeTime | any>{
 
     async createPrimeTime(createPrimeTimeDto: CreatePrimeTimeDto) {
         const {
-            userId,
+            //userId,
             title,
             description,
             rank,
@@ -22,7 +22,7 @@ export class PrimeTimeRepository extends Repository<PrimeTime | any>{
         } = createPrimeTimeDto
 
         const primeTime = this.create({
-            userId,
+            //userId,
             title,
             description,
             rank,
@@ -40,6 +40,7 @@ export class PrimeTimeRepository extends Repository<PrimeTime | any>{
             title,
             description,
             rank,
+            //tags,
             subscriptions,
             //shared
         } = updatePrimeTimeDto
@@ -51,11 +52,12 @@ export class PrimeTimeRepository extends Repository<PrimeTime | any>{
             title,
             description,
             rank,
+            //tags,
             subscriptions,
             //shared
         });
         try {
-            await this.save(primeTime)
+            await this.update(id, primeTime)
         }
         catch (error) {
             console.error('Failed to Update PrimeTime', error)
