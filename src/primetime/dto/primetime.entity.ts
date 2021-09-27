@@ -6,25 +6,32 @@ export class PrimeTime {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    //@Column()
-    //userId: string;
-
     @Column()
     title: string;
 
     @Column()
     description: string;
 
-    //@Column()
-    //tags: string;
-
     @Column()
     rank: number;
+
+    @Column({
+
+        type: 'jsonb',
+        array: false,
+    })
+    shared?: string[];
 
     //Not sure if this is correct
     @Column({
         type: 'jsonb',
         array: false,
     })
-    subscriptions: object[];
+    subscriptions?: object[];
+
+    @Column({
+        type: 'jsonb',
+        array: false,
+    })
+    tags?: string[];
 }

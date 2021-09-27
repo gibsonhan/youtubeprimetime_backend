@@ -3,8 +3,8 @@ export class CreatePrimeTimeDto {
     description: string;
     title: string;
     rank: number;
-    //tags: string;
-    //shared: [];
+    tags: []
+    shared: [];
     subscriptions: [];
     //userId: string;
 }
@@ -14,8 +14,8 @@ export class UpdatePrimeTimeDto {
     description: string;
     title: string;
     rank: number;
-    //tags: string;
-    //shared: [];
+    tags: [];
+    shared: [];
     subscriptions: [];
 }
 

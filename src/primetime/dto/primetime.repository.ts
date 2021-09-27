@@ -13,21 +13,21 @@ export class PrimeTimeRepository extends Repository<PrimeTime | any>{
 
     async createPrimeTime(createPrimeTimeDto: CreatePrimeTimeDto) {
         const {
-            //userId,
             title,
             description,
             rank,
             subscriptions,
-            //shared
+            shared,
+            tags,
         } = createPrimeTimeDto
 
         const primeTime = this.create({
-            //userId,
             title,
             description,
             rank,
             subscriptions,
-            //shared
+            shared,
+            tags,
         });
 
         await this.save(primeTime)
@@ -40,9 +40,9 @@ export class PrimeTimeRepository extends Repository<PrimeTime | any>{
             title,
             description,
             rank,
-            //tags,
+            tags,
             subscriptions,
-            //shared
+            shared,
         } = updatePrimeTimeDto
 
         console.log('update', updatePrimeTimeDto.id)
@@ -52,9 +52,9 @@ export class PrimeTimeRepository extends Repository<PrimeTime | any>{
             title,
             description,
             rank,
-            //tags,
+            tags,
             subscriptions,
-            //shared
+            shared
         });
         try {
             await this.update(id, primeTime)
