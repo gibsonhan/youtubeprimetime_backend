@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreatePrimeTimeDto, GetPrimeTimesFilterDto, UpdatePrimeTimeDto } from './primetime.dto';
 import { PrimeTimeRepository } from './dto/primetime.repository';
 import { PrimeTime } from './dto/primetime.entity'
+import { User } from 'src/auth/user.entity';
 
 @Injectable()
 export class PrimeTimeService {
@@ -11,12 +12,12 @@ export class PrimeTimeService {
         private primetimeRepository: PrimeTimeRepository,
     ) { }
 
-    getPrimeTimes(@Query() filterDto: GetPrimeTimesFilterDto): Promise<any> {
-        return this.primetimeRepository.getPrimetimes(filterDto)
+    getPrimeTimes(@Query() filterDto: GetPrimeTimesFilterDto, user: User): Promise<any> {
+        return this.primetimeRepository.getPrimetimes(filterDto, user)
     }
 
-    async getPrimeTimeBy(id: string): Promise<PrimeTime> {
-        const found = await this.primetimeRepository.findOne(id);
+    async getPrimeTimeBy(id: string, user: User): Promise<PrimeTime> {
+        const found = await this.primetimeRepository.findOne({where: {id, user}});
 
         if (!found) {
             throw new NotFoundException(`Task with ID "${id} not found`)
@@ -25,12 +26,12 @@ export class PrimeTimeService {
         return found
     }
 
-    async createPrimeTime(createPrimeTimeDto: CreatePrimeTimeDto): Promise<any> {
-        return this.primetimeRepository.createPrimeTime(createPrimeTimeDto)
+    async createPrimeTime(createPrimeTimeDto: CreatePrimeTimeDto, user: User): Promise<any> {
+        return this.primetimeRepository.createPrimeTime(createPrimeTimeDto, user)
     }
 
-    async deletePrimeTimeBy(id: string): Promise<any> {
-        const result = await this.primetimeRepository.delete(id)
+    async deletePrimeTimeBy(id: string, user:User): Promise<void> {
+        const result = await this.primetimeRepository.delete({ id, user })
 
         if (result.affected === 0) {
             throw new NotFoundException(`PrimeTime with ID "${id}" not found`);

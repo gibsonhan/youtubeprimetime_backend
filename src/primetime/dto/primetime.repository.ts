@@ -1,17 +1,19 @@
+import { User } from "src/auth/user.entity";
 import { EntityRepository, Repository } from "typeorm";
 import { CreatePrimeTimeDto, GetPrimeTimesFilterDto, UpdatePrimeTimeDto } from "../primetime.dto";
 import { PrimeTime } from "./primetime.entity";
 
 @EntityRepository(PrimeTime)
 export class PrimeTimeRepository extends Repository<PrimeTime | any>{
-    async getPrimetimes(filterDto: GetPrimeTimesFilterDto): Promise<any> {
+    async getPrimetimes(filterDto: GetPrimeTimesFilterDto, user: User): Promise<any> {
         const query = this.createQueryBuilder('primetime');
+        query.where({ user })
 
-        const primeTimes = await query.getMany()
-        return primeTimes
+        const primetimes = await query.getMany()
+        return primetimes
     }
 
-    async createPrimeTime(createPrimeTimeDto: CreatePrimeTimeDto) {
+    async createPrimeTime(createPrimeTimeDto: CreatePrimeTimeDto, user: User) {
         const {
             title,
             description,
@@ -28,6 +30,7 @@ export class PrimeTimeRepository extends Repository<PrimeTime | any>{
             subscriptions,
             shared,
             tags,
+            user
         });
 
         await this.save(primeTime)

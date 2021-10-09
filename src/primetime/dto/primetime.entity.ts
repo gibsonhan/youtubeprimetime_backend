@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Exclude } from "class-transformer";
+import { User } from "src/auth/user.entity";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class PrimeTime {
@@ -34,4 +36,8 @@ export class PrimeTime {
         array: false,
     })
     tags?: string[];
+
+    @ManyToOne((_type) => User, (user) => user.primetimes, { eager: false})
+    @Exclude({ toPlainOnly: true })
+    user: User;
 }

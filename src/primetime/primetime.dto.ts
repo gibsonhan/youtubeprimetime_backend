@@ -6,7 +6,7 @@ export class CreatePrimeTimeDto {
     tags: []
     shared: [];
     subscriptions: [];
-    //userId: string;
+    //user: string
 }
 
 export class UpdatePrimeTimeDto {
@@ -17,6 +17,7 @@ export class UpdatePrimeTimeDto {
     tags: [];
     shared: [];
     subscriptions: [];
+    //user: string
 }
 
 export class GetPrimeTimesFilterDto {
