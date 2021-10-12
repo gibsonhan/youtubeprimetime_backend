@@ -17,7 +17,7 @@ export class PrimeTimeService {
     }
 
     async getPrimeTimeBy(id: string, user: User): Promise<PrimeTime> {
-        const found = await this.primetimeRepository.findOne({where: {id, user}});
+        const found = await this.primetimeRepository.findOne({ where: { id, user } });
 
         if (!found) {
             throw new NotFoundException(`Task with ID "${id} not found`)
@@ -30,8 +30,10 @@ export class PrimeTimeService {
         return this.primetimeRepository.createPrimeTime(createPrimeTimeDto, user)
     }
 
-    async deletePrimeTimeBy(id: string, user:User): Promise<void> {
-        const result = await this.primetimeRepository.delete({ id, user })
+    async deletePrimeTimeBy(id: string, user: User): Promise<void> {
+        console.log('id', id)
+        console.log('user', user)
+        const result = await this.primetimeRepository.delete(id)
 
         if (result.affected === 0) {
             throw new NotFoundException(`PrimeTime with ID "${id}" not found`);
