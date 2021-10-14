@@ -8,6 +8,7 @@ import {
     Put,
     Query,
     UseGuards,
+    Req,
 } from '@nestjs/common';
 
 import { PrimeTimeService } from './primetime.service';
@@ -28,7 +29,7 @@ export class PrimeTimeController {
     createPrimeTime(
         @Body() createPrimeTimeDto: CreatePrimeTimeDto,
         @getUser() user: User
-        ): Promise<any> {
+    ): Promise<any> {
         return this.primeTimeService.createPrimeTime(createPrimeTimeDto, user)
     }
 

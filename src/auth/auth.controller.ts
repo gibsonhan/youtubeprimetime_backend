@@ -1,4 +1,5 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Response } from 'express'
+import { Body, Controller, Post, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 
@@ -17,8 +18,16 @@ export class AuthController {
         return this.authService.googleSignUp(test)
     }
     @Post('/signin')
-    signIn(@Body() authCredentialsDto: AuthCredentialsDto): Promise<{ accessToken: string }> {
-        console.log('check', authCredentialsDto)
+    signIn(
+        @Body() authCredentialsDto: AuthCredentialsDto,
+        @Res({ passthrough: true }) response: Response
+    ): Promise<{ accessToken: string }> {
+        let test = this.authService.signIn(authCredentialsDto)
+        response.cookie('acccesToken', test, {
+            expires: new Date(new Date().getTime() + 30 * 1000),
+            sameSite: 'strict',
+            httpOnly: true,
+        })
         return this.authService.signIn(authCredentialsDto)
     }
 
