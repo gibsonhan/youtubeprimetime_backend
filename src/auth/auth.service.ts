@@ -1,5 +1,6 @@
 import * as argon2 from 'argon2'
 import { randomBytes } from 'crypto'
+import { Response } from 'express';
 import { Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
@@ -46,15 +47,20 @@ export class AuthService {
         }
     }
 
-    async signIn(authCredentialsDto: AuthCredentialsDto): Promise<{ accessToken: string }> {
+    async signIn(authCredentialsDto: AuthCredentialsDto, response: Response): Promise<void> {
         const { username, password } = authCredentialsDto
         const user = await this.usersRepository.findOne({ username })
         const verifyHash = await argon2.verify(user.password, password)
-
         if (user && verifyHash) {
             const payload: JwtPayload = { username }
-            const accessToken: string = await this.jwtService.sign(payload)
-            return { accessToken }
+            const token: string = await this.jwtService.sign(payload)
+            response.cookie('accessToken', token, {
+                //domain: 'http://localhost:3000' ,
+                //path: '/signin',
+                expires: new Date(new Date().getTime() + 30 * 1000),
+                sameSite: 'lax', // Change this when in production
+                httpOnly: false,
+            })
         } else {
             throw new UnauthorizedException('Please Check your login credentials')
         }
