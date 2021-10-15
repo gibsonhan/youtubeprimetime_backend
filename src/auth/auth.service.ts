@@ -58,7 +58,8 @@ export class AuthService {
                 //domain: 'http://localhost:3000' ,
                 //path: '/signin',
                 expires: new Date(new Date().getTime() + 30 * 1000),
-                sameSite: 'lax', // Change this when in production
+                secure: true,
+                sameSite: 'none', // Change this when in production
                 httpOnly: false,
             })
         } else {
