@@ -1,14 +1,15 @@
 import * as argon2 from 'argon2'
 import { randomBytes } from 'crypto'
 import { Response } from 'express';
+import { JwtService } from '@nestjs/jwt';
 import { Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AuthCredentialsDto } from './dto/auth-credentials.dto';
-import { UserRepository } from './user.repository';
+//dto & repository
+import { AuthCredentialsDto, GoogleAuthCredentialsDto } from './dto/auth-credentials.dto';
 import { JwtPayload } from './dto/jwt-payload-interface';
-import { JwtService } from '@nestjs/jwt';
+import { UserRepository } from './user.repository';
+//util
 import verifyGoogleToken from 'util/verifyGoogleToken';
-
 @Injectable()
 export class AuthService {
     constructor(
@@ -17,14 +18,15 @@ export class AuthService {
         private jwtService: JwtService,
     ) { }
 
-    async googleSignUp(test: any) {
+    async googleSignUp(googleAuthCredDto: GoogleAuthCredentialsDto) {
         try {
-            const { email, userid } = await verifyGoogleToken(test.tokenId)
+            const { email, userid } = await verifyGoogleToken(googleAuthCredDto.idToken)
             const password: any = userid + await randomBytes(32).toString('hex')
             return this.usersRepository.createUser({ username: email, password })
         }
         catch (error) {
-            throw new InternalServerErrorException()
+            console.log('what is error', error)
+            throw new InternalServerErrorException('Something Went Wrong')
         }
     }
 

@@ -14,3 +14,8 @@ export class AuthCredentialsDto {
     })
     password: string;
 }
+
+export class GoogleAuthCredentialsDto {
+    @IsString()
+    idToken: string;
+}
