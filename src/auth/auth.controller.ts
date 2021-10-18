@@ -9,8 +9,8 @@ export class AuthController {
         private authService: AuthService,
     ) { }
     @Post('/google/signin')
-    googleSignIn(@Body() googleAuthCredentialsDto: GoogleAuthCredentialsDto): Promise<{ accessToken: string }> {
-        return this.authService.googleSignIn(googleAuthCredentialsDto)
+    googleSignIn(@Body() googleAuthCredentialsDto: GoogleAuthCredentialsDto, response: Response): Promise<void> {
+        return this.authService.googleSignIn(googleAuthCredentialsDto, response)
     }
 
     @Post('/google/signup')

@@ -31,10 +31,7 @@ export class PrimeTimeService {
     }
 
     async deletePrimeTimeBy(id: string, user: User): Promise<void> {
-        console.log('id', id)
-        console.log('user', user)
         const result = await this.primetimeRepository.delete(id)
-
         if (result.affected === 0) {
             throw new NotFoundException(`PrimeTime with ID "${id}" not found`);
         }

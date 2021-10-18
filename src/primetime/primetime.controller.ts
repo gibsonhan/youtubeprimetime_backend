@@ -9,6 +9,7 @@ import {
     Query,
     UseGuards,
     Req,
+    HttpCode,
 } from '@nestjs/common';
 
 import { PrimeTimeService } from './primetime.service';
@@ -50,6 +51,7 @@ export class PrimeTimeController {
     }
 
     @Delete('/:id')
+    @HttpCode(204)
     deletePrimeTimeById(
         @Param('id') id: string,
         @getUser() user: User,

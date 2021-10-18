@@ -2,9 +2,9 @@
     "type": "postgres",
     "host": "localhost",
     "port": 5432,
-    "username": "postgres",
+    "username": "order9066",
     "password": "9359",
-    "database": "block",
+    "database": "primetime",
     "entities": [
         "dist/**/*.entity{.ts,.js}"
     ],

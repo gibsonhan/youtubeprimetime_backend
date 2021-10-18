@@ -25,26 +25,33 @@ export class AuthService {
             return this.usersRepository.createUser({ username: email, password })
         }
         catch (error) {
-            console.log('what is error', error)
             throw new InternalServerErrorException('Something Went Wrong')
         }
     }
 
-    async googleSignIn(test: any) {
+    async googleSignIn(googleAuthCredDto: GoogleAuthCredentialsDto, response: Response): Promise<void> {
         try {
-            const response = await verifyGoogleToken(test.tokenId)
-            const username = response.email
+            const result = await verifyGoogleToken(googleAuthCredDto.idToken,)
+            const username = result.email
             const user = await this.usersRepository.findOne({ username })
 
             if (user) {
                 const payload: JwtPayload = { username }
-                const accessToken: string = await this.jwtService.sign(payload)
-                return { accessToken }
+                const token: string = await this.jwtService.sign(payload)
+                response.cookie('accessToken', token, {
+                    //domain: 'http://localhost:3000' ,
+                    //path: '/signin',
+                    expires: new Date(new Date().getTime() + (30 * 60 * 60 * 1000)),
+                    secure: true,
+                    sameSite: 'none', // Change this when in production
+                    httpOnly: false,
+                })
             } else {
                 throw new UnauthorizedException('Please Check your login credentials')
             }
         }
         catch (error) {
+            console.log(error)
             throw new InternalServerErrorException()
         }
     }
@@ -59,7 +66,7 @@ export class AuthService {
             response.cookie('accessToken', token, {
                 //domain: 'http://localhost:3000' ,
                 //path: '/signin',
-                expires: new Date(new Date().getTime() + 30 * 1000),
+                expires: new Date(new Date().getTime() + (30 * 60 * 60 * 1000)),
                 secure: true,
                 sameSite: 'none', // Change this when in production
                 httpOnly: false,
